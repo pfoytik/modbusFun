@@ -15,7 +15,7 @@
 
 int main() {
     srand(time(NULL));
-    modbus_t *ctx = modbus_new_tcp("0.0.0.0", 1502);
+    modbus_t *ctx = modbus_new_tcp("0.0.0.0", 502);
     if (ctx == NULL) {
         fprintf(stderr, "Unable to create the Modbus server context\n");
         return -1;
@@ -29,7 +29,7 @@ int main() {
         return -1;
     }
 
-    modbus_mapping_t *mb_mapping = modbus_mapping_new(0, 0, HOLDING_REGISTERS_COUNT, 0);
+    modbus_mapping_t *mb_mapping = modbus_mapping_new(0, 0, HOLDING_REGISTERS_COUNT, HOLDING_REGISTERS_COUNT);
     if (mb_mapping == NULL) {
         fprintf(stderr, "Failed to allocate modbus mapping: %s\n", modbus_strerror(errno));
         close(server_socket);
@@ -52,6 +52,7 @@ int main() {
 	    double sine_value = AMPLITUDE * sin(SINE_FREQUENCY * sine_time);
             //mb_mapping->tab_registers[0] = random_value;
 	    mb_mapping->tab_registers[0] = (uint16_t)(sine_value + AMPLITUDE);
+        mb_mapping->tab_input_registers[0] = (uint16_t)(sine_value + AMPLITUDE);
 
 	    sine_time += 0.1;
 
