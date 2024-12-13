@@ -43,10 +43,10 @@ void parse_csv(const char *input, float *values, int max_values) {
     buffer[sizeof(buffer) - 1] = '\0';          // Null-terminate the buffer
 
     int index = 0;
-    token = strtok(buffer, ",");
+    token = strtok(buffer, ";");
     while (token != NULL && index < max_values) {
         values[index] = atof(token); // Convert string to float
-        token = strtok(NULL, ",");
+        token = strtok(NULL, ";");
         index++;
     }
 }
